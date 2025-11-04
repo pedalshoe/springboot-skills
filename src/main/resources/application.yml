@@ -1,0 +1,21 @@
+## YAML Template.
+---
+spring:
+    application:
+        name: springboot-skills
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/appdb
+        username: appuser
+        password: ${DB_PASSWORD:}
+        driver-class-name: org.postgresql.Driver
+    sql.init.mode: always
+
+    jpa:
+        hibernate:
+            ddl-auto: validate   # we already created the table; don’t let Hibernate change it
+        properties:
+            hibernate:
+                jdbc:
+                    time_zone: UTC
+    open-in-view: false
