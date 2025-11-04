@@ -18,6 +18,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  *
@@ -27,6 +28,7 @@ import java.util.Date;
 @Table(name = "users", schema = "app",
         uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
 @NamedQueries({ // the query is based on the name of the Entity in this case: User.java so its select u from User
+    
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "Users.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
@@ -35,19 +37,23 @@ import java.util.Date;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
     @Basic(optional = false)
-    @Column(name = "display_name")
+    @Column(name = "display_name", nullable = false)
     private String displayName;
-    @Basic(optional = false)
-    @Column(name = "created_at")
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -119,7 +125,12 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.cml.springbootskills.day3.controllers.entities.User[ id=" + id + " ]";
+        return "User{"
+                + "id=" + id
+                + ", email='" + email + '\''
+                + ", displayName='" + displayName + '\''
+                + ", createdAt=" + createdAt
+                + '}';
+
     }
-    
 }

@@ -5,7 +5,7 @@ spring:
         name: springboot-skills-test
 
     datasource:
-        url: jdbc:h2:mem:appdb
+        url: jdbc:h2:mem:appdb;DB_CLOSE_DELAY=-1
         driverClassName: org.h2.Driver
         username: sa
         password:
